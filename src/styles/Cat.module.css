@@ -1,0 +1,69 @@
+.center {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.maxHeight {
+    max-height: clamp(200px, 90vh, 800px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.categories {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.category {
+    width: 90%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 0.2rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #f1f1f1;
+    border-radius: 1rem;
+    padding: 0.4rem;
+}
+
+.category > h1, .category > p {
+    margin: 0;
+}
+
+.subcategory {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    width: clamp(200px, 90vw, 800px);
+    padding: 0.4rem;
+    border-radius: 1rem;
+    height: clamp(200px, 90vh, 800px);
+}
+
+.subCategoryItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.subCategoryItem:hover {
+    background-color: #e1e1e1;
+}
