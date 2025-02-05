@@ -17,18 +17,20 @@ Créer un fichier JSON contenant les catégories souhaitées.
 * Ensuite, importez ce fichier JSON dans les paramètres de l’application.
 * Exemple de fichier JSON :
 ```json
-{
-    "Categories": [
-        "Catégorie Picking List 1",
-        "Catégorie Picking List 2",
-        "Catégorie Picking List 3"
-    ],
-    "Autres catégories": [
-        "Catégorie Picking List 4",
-        "Catégorie Picking List 5",
-        "Catégorie Picking List 6"
-    ]
-}
+[
+  {
+    "name": "Catégorie 1",
+    "subCategory": ["sous-catégorie 1", "sous-catégorie 2"]
+  },
+  {
+    "name": "Catégorie 2",
+    "subCategory": ["sous-catégorie 3", "sous-catégorie 4", "sous-catégorie 5"]
+  },
+  {
+    "name": "Catégorie 3",
+    "subCategory": ["sous-catégorie 6"]
+  }
+]
 ```
 Charger votre fichier Picking List, puis cliquez sur le bouton de génération pour obtenir un fichier PDF avec les catégories bien séparées.
 
