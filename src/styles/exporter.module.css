@@ -78,4 +78,21 @@ table.products tr:hover {
     .cover {
         display: none!important;
     }
+
+    .missingCategories {
+        display: none;
+    }
+}
+
+.missingCategories > button {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    background-color: #f1f1f1;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+.missingCategories > button:hover {
+    background-color: #e1e1e1;
 }
