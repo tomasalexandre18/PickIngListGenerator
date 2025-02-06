@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import csv from "csvtojson";
-import style from './styles/exporter.module.css'
+// @ts-ignore
+import style from './styles/exporter.module.css';
 
 interface Cat {
     name: string
@@ -23,8 +24,10 @@ function getProductBySubCategory(data: DataType[], subCategory: string) {
 }
 
 export function Exporter(props: ExporterProps) {
-    const [categories] = useState<Cat[]>(window.localStorage.getItem('categories') ? JSON.parse(window.localStorage.getItem('categories') as string) : [])
+    const [categories, setCategories] = useState<Cat[]>(window.localStorage.getItem('categories') ? JSON.parse(window.localStorage.getItem('categories') as string) : [])
+    const [missingCategories, setMissingCategories] = useState<string[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const ref = useRef<HTMLDivElement>(null)
     if (!categories) {
         alert('Categories not found, this should not happen')
         window.location.reload()
@@ -35,7 +38,22 @@ export function Exporter(props: ExporterProps) {
         const reader = new FileReader()
         reader.onload = async () => {
             csv({delimiter: ';'}).fromString(reader.result as string).then((json: DataType[]) => {
+                // check if categories is missing
+                let mis: string[] = []
+                json.forEach((product) => {
+                    if (!categories.find((cat) => cat.subCategory.includes(product.Catégorie))) {
+                        mis.push(product.Catégorie)
+                    }
+                })
+                // remove duplicates
+                mis = mis.filter((value, index, self) => self.indexOf(value) === index)
+                setMissingCategories(mis)
                 setData(json)
+                if (mis.length > 0) {
+                    ref.current!.style.display = 'flex';
+                    return;
+                }
+
                 setLoading(false)
             })
         }
@@ -119,6 +137,37 @@ export function Exporter(props: ExporterProps) {
             })}
         <div style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'white', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '2em'}} className={style.cover}>
             <h1>Impression...</h1>
+        </div>
+        <div style={{display: 'none', justifyContent: 'center', alignItems: 'center', fontSize: '2em', flexWrap: 'wrap', backgroundColor: "white", zIndex:2000, width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0}} className={style.cover} ref={ref}>
+            <div>
+                <h1>Les catégories suivantes ne sont pas configurées:</h1>
+                <ul>
+                    {missingCategories.map((cat, i) => {
+                        return (
+                            <li key={i}>{cat}</li>
+                        )
+                    })}
+                </ul>
+
+                <button onClick={() => {
+                        alert('L\'editeur de catégories n\'est pas encore disponible\nMerci de modifier la configuration manuellement')
+                }}>Configurer les catégories</button>
+                <button onClick={() => {
+                    const other = categories.find((cat) => cat.name === 'Autre')
+                    if (!other) {
+                        categories.push({name: 'Autre', subCategory: missingCategories})
+                    } else {
+                        other.subCategory = other.subCategory.concat(missingCategories)
+                    }
+                    setMissingCategories([])
+                    setCategories(categories)
+                    setLoading(false)
+                }}>ajouter les produits manquants dans une catégorie Autre</button>
+                <button onClick={() => {
+                    setMissingCategories([])
+                    setLoading(false)
+                }}>Imprimer sans les produits manquants</button>
+            </div>
         </div>
         </>
     )
