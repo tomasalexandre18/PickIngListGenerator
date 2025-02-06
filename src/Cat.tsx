@@ -1,3 +1,4 @@
+// @ts-ignore
 import style from './styles/Cat.module.css';
 // import {useEffect, useState} from "react";
 
