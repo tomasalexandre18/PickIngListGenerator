@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Exporter} from "./Exporter.tsx";
 import {Menu} from "./Menu.tsx";
+// @ts-ignore
 import './styles/global.css';
 import {Cat} from "./Cat.tsx";
 

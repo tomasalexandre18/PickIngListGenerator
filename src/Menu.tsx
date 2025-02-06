@@ -1,4 +1,5 @@
 import {useState} from "react";
+// @ts-ignore
 import style from "./styles/Menu.module.css";
 import {loadConfig, saveConfig} from "./config-ei.ts";
 

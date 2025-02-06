@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import csv from "csvtojson";
+// @ts-ignore
 import style from './styles/exporter.module.css'
 
 interface Cat {
